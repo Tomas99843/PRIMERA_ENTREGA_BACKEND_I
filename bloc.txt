@@ -1,0 +1,27 @@
+ENTREGA_1/
+         --data/
+               products.json
+         --node_modules/                      
+         --src/
+                --controllers/
+                            --productServices.js
+                --managers/
+                            --productRepos.js
+                --public/
+                        --css/
+                            --style.css
+                        --js/
+                            --realTimeproducts.js
+                --routes/
+                            --rutas.productos.js
+                            --views.router.js
+                --views/
+                        --layouts/
+                                 --main.handlebars
+                        --home.handlebars
+                        --realTimeProducts.handldebars         
+                            
+                index.js
+            .gitignore
+            package-lock.json
+            package.json

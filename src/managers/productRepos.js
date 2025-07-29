@@ -1,11 +1,12 @@
-//productRepos.js es un repositorio que maneja la lógica de persistencia relacionada con los productos.
+import { promises as fs } from 'fs';
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
 
-const fs = require('fs').promises;
-const path = require('path');
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
-class ProductRepos {
+export default class ProductRepos {
     constructor() {
-        this.filePath = path.resolve(__dirname, '../../data/products.json');
+        this.filePath = join(__dirname, '../../data/products.json');
     }
 
     async #readFile() {
@@ -20,57 +21,70 @@ class ProductRepos {
             throw error;
         }
     }
+
     async #saveFile(products) {
         await fs.writeFile(this.filePath, JSON.stringify(products, null, 2));
     }
+
     async addProduct(productData) {
-        const products = await this.#readFile();        
-        const requiredFields = ['title', 'description', 'code', 'price', 'stock', 'category'];
+        const products = await this.#readFile();
+        
+        const requiredFields = ['title', 'price', 'description', 'stock', 'category'];
         const missingFields = requiredFields.filter(field => !productData[field]);
         if (missingFields.length > 0) {
             throw new Error(`Faltan campos: ${missingFields.join(', ')}`);
         }
-        if (products.some(p => p.code === productData.code)) {
+
+        const newProduct = {
+            id: Date.now(), 
+            title: productData.title,
+            price: productData.price,
+            description: productData.description,
+            stock: productData.stock,
+            category: productData.category,
+            status: productData.status ?? true,
+            thumbnails: productData.thumbnails || [],
+            code: productData.code || `CODE-${Date.now()}`
+        };
+
+        if (productData.code && products.some(p => p.code === productData.code)) {
             throw new Error(`El código ${productData.code} ya existe`);
         }
-        const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
-        const newProduct = {
-            id: newId,
-            ...productData,
-            status: productData.status ?? true, 
-            thumbnails: productData.thumbnails || []
-        };
+
         products.push(newProduct);
         await this.#saveFile(products);
         return newProduct;
     }
+
     async getProducts() {
         return await this.#readFile();
     }
+
     async getProductById(id) {
         const products = await this.#readFile();
-        const product = products.find(p => p.id === id);
+        const product = products.find(p => p.id == id);
         if (!product) throw new Error('Producto no encontrado');
         return product;
     }
+
     async updateProduct(id, updatedFields) {
         if ('id' in updatedFields) {
             throw new Error('No se puede modificar el ID');
         }
         const products = await this.#readFile();
-        const index = products.findIndex(p => p.id === id);
+        const index = products.findIndex(p => p.id == id);
         if (index === -1) throw new Error('Producto no encontrado');
         products[index] = { ...products[index], ...updatedFields };
         await this.#saveFile(products);
         return products[index];
     }
+
     async deleteProduct(id) {
         const products = await this.#readFile();
-        const index = products.findIndex(p => p.id === id);
+        const index = products.findIndex(p => p.id == id);
         if (index === -1) throw new Error('Producto no encontrado');
         const [deletedProduct] = products.splice(index, 1);
         await this.#saveFile(products);
         return deletedProduct;
-    }
 }
-module.exports = ProductRepos;
+}

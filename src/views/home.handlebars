@@ -1,0 +1,28 @@
+<!-- Vista del cliente -->
+<div class="container mt-4">
+  <h1 class="mb-4">Vista-Cliente</h1>
+  <h2>PRODUCTOS DISPONIBLES</h2>  
+  {{#if products.length}}
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      {{#each products}}
+        <div class="col">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title">{{this.title}}</h5>
+              <p class="card-text text-success fs-4">${{this.price}}</p>
+              {{#if this.description}}
+                <p class="card-text text-muted">{{this.description}}</p>
+              {{/if}}
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="badge bg-primary">Stock: {{this.stock}}</span>
+                <span class="badge bg-secondary">{{this.category}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  {{else}}
+    <div class="alert alert-warning">No hay productos.</div>
+  {{/if}}
+</div>

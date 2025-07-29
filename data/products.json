@@ -1,1 +1,13 @@
-[]
+[
+  {
+    "id": 1753826791313,
+    "title": "peperin",
+    "price": 900,
+    "description": "pica",
+    "stock": 10,
+    "category": "general",
+    "status": true,
+    "thumbnails": [],
+    "code": "CODE-1753826791313"
+  }
+]

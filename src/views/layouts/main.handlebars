@@ -1,0 +1,18 @@
+<!-- Layout base,en la navegacion-->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{title}}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+   <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  {{{body}}} 
+</body>
+</html>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+{{#if script}}
+  <script src="/js/{{script}}.js"></script>
+{{/if}}
