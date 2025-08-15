@@ -1,12 +1,11 @@
-<!-- Vista del cliente -->
 <div class="container mt-4">
-  <h1 class="mb-4">Vista-Cliente</h1>
-  <h2>PRODUCTOS DISPONIBLES</h2>  
+  <h1 class="mb-4">Vista Cliente</h1>
+  <h2 class="mb-3">PRODUCTOS DISPONIBLES</h2>  
   {{#if products.length}}
     <div class="row row-cols-1 row-cols-md-3 g-4">
       {{#each products}}
         <div class="col">
-          <div class="card h-100">
+          <div class="card h-100 product-card">
             <div class="card-body">
               <h5 class="card-title">{{this.title}}</h5>
               <p class="card-text text-success fs-4">${{this.price}}</p>
@@ -23,6 +22,6 @@
       {{/each}}
     </div>
   {{else}}
-    <div class="alert alert-warning">No hay productos.</div>
+    <div class="alert alert-warning">No hay productos disponibles.</div>
   {{/if}}
 </div>
